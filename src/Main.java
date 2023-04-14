@@ -27,6 +27,11 @@ public class Main {
         System.out.println();
         System.out.println("Get the last three products added:");
         System.out.println(getLastThreeAddedProducts(productList));
+        System.out.println();
+        System.out.println("Calculation of the total cost of products:");
+        System.out.printf("1)added during the current year\n2)type \"Book\"\n3)price does not exceed 75%n");
+        System.out.println("----------------");
+        System.out.println(calculateTotalPriceOfBooks(productList));
     }
     public static List<Product> getExpensiveBooks(List<Product> productList) {
         return productList.stream()
@@ -55,5 +60,14 @@ public class Main {
                 .sorted(Comparator.comparing(Product::getDateAdded).reversed()) // Сортировка по дате в обратном порядке
                 .limit(3) // Ограничение до трех элементов
                 .toList();
+    }
+    public static double calculateTotalPriceOfBooks(List<Product> productList) {
+        LocalDate currentDate = LocalDate.now();
+        return productList.stream()
+                .filter(p -> p.getType().equals("Book"))
+                .filter(p -> p.getDateAdded().getYear() == currentDate.getYear())
+                .filter(p -> p.getPrice() <= 75)
+                .mapToDouble(Product::getPrice)
+                .sum();
     }
 }
