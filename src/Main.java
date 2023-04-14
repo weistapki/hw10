@@ -3,6 +3,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -32,6 +33,9 @@ public class Main {
         System.out.printf("1)added during the current year\n2)type \"Book\"\n3)price does not exceed 75%n");
         System.out.println("----------------");
         System.out.println(calculateTotalPriceOfBooks(productList));
+        System.out.println();
+        System.out.println("Grouping objects by product type:");
+        printGroupedProducts(productList);
     }
     public static List<Product> getExpensiveBooks(List<Product> productList) {
         return productList.stream()
@@ -69,5 +73,18 @@ public class Main {
                 .filter(p -> p.getPrice() <= 75)
                 .mapToDouble(Product::getPrice)
                 .sum();
+    }
+    public static void printGroupedProducts(List<Product> productList) {
+        productList.stream()
+                .collect(Collectors.groupingBy(Product::getType))
+                .forEach((type, products) -> {
+                    System.out.println(type + ":");
+                    products.stream()
+                            .map(p -> "Type: " + p.getType() +
+                                    ", Price: " + p.getPrice() +
+                                    ", Discount: " + p.isDiscount() +
+                                    ", Date Added: " + p.getDateAdded())
+                            .forEach(System.out::println);
+                });
     }
 }
