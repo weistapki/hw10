@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -19,6 +20,9 @@ public class Main {
         System.out.println();
         System.out.println("Book products with discount:");
         System.out.println(getBookProductsWithDiscount(productList));
+        System.out.println();
+        System.out.println("The cheapest product from the category \"Book\":");
+        System.out.println(getCheapestBook(productList));
     }
     public static List<Product> getExpensiveBooks(List<Product> productList) {
         return productList.stream()
@@ -35,4 +39,10 @@ public class Main {
                 })
                 .collect(toList());
     };
+    public static Product getCheapestBook(List<Product> products) {
+        return products.stream()
+                .filter(p -> p.getType().equals("Book"))
+                .min(Comparator.comparingDouble(Product::getPrice))
+                .orElseThrow(() -> new RuntimeException("Product [Category: Book] not found"));
+    }
 }
