@@ -48,7 +48,7 @@ public class Main {
                 .filter(p -> p.getType().equals("Book"))
                 .filter(Product::isDiscount)
                 .peek(p -> {
-                    p.setPrice(p.getPrice() * 0.9);// Применение скидки 10%
+                    p.setPrice(p.getPrice() * 0.9);
                 })
                 .collect(toList());
     }
@@ -61,8 +61,8 @@ public class Main {
     }
     public static List<Product> getLastThreeAddedProducts(List<Product> productList) {
         return productList.stream()
-                .sorted(Comparator.comparing(Product::getDateAdded).reversed()) // Сортировка по дате в обратном порядке
-                .limit(3) // Ограничение до трех элементов
+                .sorted(Comparator.comparing(Product::getDateAdded).reversed())
+                .limit(3)
                 .toList();
     }
     public static double calculateTotalPriceOfBooks(List<Product> productList) {
