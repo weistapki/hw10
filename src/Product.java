@@ -1,10 +1,12 @@
 public class Product {
-    private final String type;
-    private final double price;
+    private String type;
+    private double price;
+    private boolean discount;
 
-    public Product(String type, double price) {
+    public Product(String type, double price, boolean discount) {
         this.type = type;
         this.price = price;
+        this.discount = discount;
     }
 
     public String getType() {
@@ -15,11 +17,18 @@ public class Product {
         return price;
     }
 
+    public boolean isDiscount() {
+        return discount;
+    }
+    public void setPrice(double price) {
+        this.price = price;
+    }
     @Override
     public String toString() {
         return "Product{" +
                 "type='" + type + '\'' +
                 ", price=" + price +
+                ", discount=" + discount +
                 '}';
     }
 }
