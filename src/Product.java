@@ -1,10 +1,10 @@
 import java.time.LocalDate;
 
 public class Product {
-    private String type;
+    private final String type;
     private double price;
-    private boolean discount;
-    private LocalDate dateAdded;
+    private final boolean discount;
+    private final LocalDate dateAdded;
 
     public Product(String type, double price, boolean discount, LocalDate dateAdded) {
         this.type = type;

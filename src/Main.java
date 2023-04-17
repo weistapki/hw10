@@ -3,6 +3,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
@@ -47,9 +48,7 @@ public class Main {
         return productList.stream()
                 .filter(p -> p.getType().equals("Book"))
                 .filter(Product::isDiscount)
-                .peek(p -> {
-                    p.setPrice(p.getPrice() * 0.9);
-                })
+                .peek(p -> p.setPrice(p.getPrice() * 0.9))
                 .collect(toList());
     }
 
@@ -75,16 +74,17 @@ public class Main {
                 .sum();
     }
     public static void printGroupedProducts(List<Product> productList) {
-        productList.stream()
-                .collect(Collectors.groupingBy(Product::getType))
-                .forEach((type, products) -> {
-                    System.out.println(type + ":");
-                    products.stream()
-                            .map(p -> "Type: " + p.getType() +
-                                    ", Price: " + p.getPrice() +
-                                    ", Discount: " + p.isDiscount() +
-                                    ", Date Added: " + p.getDateAdded())
-                            .forEach(System.out::println);
-                });
+        Map<String, List<String>> groupedProducts = productList.stream()
+                .collect(Collectors.groupingBy(Product::getType, Collectors.mapping(p ->
+                                "Type: " + p.getType() +
+                                        ", Price: " + p.getPrice() +
+                                        ", Discount: " + p.isDiscount() +
+                                        ", Date Added: " + p.getDateAdded(),
+                        Collectors.toList())));
+
+        groupedProducts.forEach((type, products) -> {
+            System.out.println(type + ":");
+            products.forEach(System.out::println);
+        });
     }
 }
